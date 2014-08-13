@@ -1,0 +1,42 @@
+#cloud-config
+
+coreos:
+    etcd:
+        name: node002
+        discovery: https://discovery.etcd.io/ad926b84189e8a1a5034a6de90417a8b
+        addr: 192.99.39.57:4001
+        peer-addr: 172.16.0.2:7001
+
+    fleet:
+        public-ip: 192.99.39.57
+        metadata: region=us-east
+
+    update:
+        reboot-strategy: etcd-lock
+	
+    units:
+      - name: etcd.service
+        command: start
+
+      - name: fleet.service
+        command: start
+
+      - name: ssd.socket
+        command: restart
+        content: |
+            [Socket]
+            ListenStream=2222
+            Accept=yes
+
+    users:
+      - name: styles
+        groups:
+          - sudo
+          - docker
+        ssh_authorized_keys: 
+          - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWCV0IbLAh+Lh8/gGsV6Qrs+4A2Yvwex8vEm8tPLLMdqNNF3L6vLTsAmGOUOk6YrdJQx0PV0zN09Bi/MrH/EsEMNRNO+qggPkLim0BAmUmcoROd3GQdHWF/BpgT7lwz80MqzlW+HMwzKgaax/tE3SxycdCgATvk8WGWVvlKtv6ahFn0moIstOFzFAuJiI5XHqWLCVHBDd0xHZ3Fv6qPkX9X9qb2G1ys29uScU1PGnVwPbwkrP1JcBwos/rUW4EPD3L3ONfWpilXoN8ljzbldxgdP7pbTOKvXUhZ4gK5RxWxbXOLWgYg53EZk81j5zcw947pE99oOXwYCN5m8urwzdD styles@styles-laptop
+
+ssh_authorized_keys: 
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDWCV0IbLAh+Lh8/gGsV6Qrs+4A2Yvwex8vEm8tPLLMdqNNF3L6vLTsAmGOUOk6YrdJQx0PV0zN09Bi/MrH/EsEMNRNO+qggPkLim0BAmUmcoROd3GQdHWF/BpgT7lwz80MqzlW+HMwzKgaax/tE3SxycdCgATvk8WGWVvlKtv6ahFn0moIstOFzFAuJiI5XHqWLCVHBDd0xHZ3Fv6qPkX9X9qb2G1ys29uScU1PGnVwPbwkrP1JcBwos/rUW4EPD3L3ONfWpilXoN8ljzbldxgdP7pbTOKvXUhZ4gK5RxWxbXOLWgYg53EZk81j5zcw947pE99oOXwYCN5m8urwzdD styles@styles-laptop
+
+
