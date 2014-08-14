@@ -13,7 +13,7 @@ coreos:
 
     update:
         reboot-strategy: etcd-lock
-	
+
     units:
       - name: etcd.service
         command: start
