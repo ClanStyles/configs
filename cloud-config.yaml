@@ -21,7 +21,7 @@ coreos:
       - name: fleet.service
         command: start
 
-      - name: ssd.socket
+      - name: sshd.socket
         command: restart
         content: |
             [Socket]
